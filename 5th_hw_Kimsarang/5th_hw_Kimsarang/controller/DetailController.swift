@@ -1,9 +1,5 @@
 import UIKit
 
-
-
-
-
 class DetailController: UIViewController, HeaderViewDelegate {
     
     let tableView: UITableView = {
@@ -30,7 +26,7 @@ class DetailController: UIViewController, HeaderViewDelegate {
         
         // Set up the header view
         let headerView = DetailHeaderUIView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 760))
-        headerView.delegate = self
+        headerView.delegate = self // delegate 설정
         tableView.tableHeaderView = headerView
         
         // TableView AutoLayout 설정

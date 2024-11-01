@@ -1,292 +1,17 @@
-//
-//  DetailHeaderUIView.swift
-//  5th_hw_Kimsarang
-//
-//  Created by 김사랑 on 10/21/24.
-//
-
 import UIKit
 
+// HeaderViewDelegate 프로토콜 정의
 protocol HeaderViewDelegate: AnyObject {
     func didTapBackButton()
 }
 
 class DetailHeaderUIView: UIView {
-    
-    weak var delegate: HeaderViewDelegate?
-    
-    private let mainImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = UIImage(named: "Jangu")
-        imageView.contentMode = .scaleAspectFit
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        return imageView
-    }()
-    
-    private let customBackButton: UIButton = {
-        let button = UIButton(type: .custom)
-        button.setImage(UIImage(named: "xx"), for: .normal)
-        button.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside) // Add target for back button
-        return button
-    }()
-    
-    private let tvShareButton: UIButton = {
-        let button = UIButton(type: .custom)
-        button.setImage(UIImage(named: "rr"), for: .normal)
-        return button
-    }()
-    
-    private let topButtonStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .horizontal
-        stackView.alignment = .center
-        stackView.spacing = 16
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        return stackView
-    }()
-    
-    private let playMainImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = UIImage(named: "play")
-        imageView.contentMode = .scaleAspectFit
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        return imageView
-    }()
-    
-    private let netflixImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = UIImage(named: "logos_netflix-icon")
-        imageView.contentMode = .scaleAspectFit
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        return imageView
-    }()
-    
-    private let slabel: UILabel = {
-        let label = UILabel()
-        let text = "SERIES"
-        let attributedString = NSMutableAttributedString(string: text)
-        attributedString.addAttributes([.kern: 2.5], range: NSRange(location: 0, length: text.count))
-        label.attributedText = attributedString
-        label.font = UIFont.systemFont(ofSize: 10, weight: .bold)
-        label.textColor = .darkGray
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
-    private let logoStackview: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .horizontal
-        stackView.alignment = .center
-        stackView.spacing = 8
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        return stackView
-    }()
-    
-    private let titleLabel: UILabel = {
-        let label = UILabel()
-        label.text = "Selling Sunset"
-        label.textColor = .white
-        label.font = UIFont.systemFont(ofSize: 16, weight: .bold)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
-    private let yearLabel: UILabel = {
-        let label = UILabel()
-        label.text = "2022"
-        label.textColor = .white
-        label.font = UIFont.systemFont(ofSize: 11, weight: .medium)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
-    private let seasonsLabel: UILabel = {
-        let label = UILabel()
-        label.text = "5 Seasons"
-        label.textColor = .white
-        label.font = UIFont.systemFont(ofSize: 11, weight: .medium)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
-    private let tvImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = UIImage(named: "tvma")
-        imageView.contentMode = .scaleAspectFill
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        return imageView
-    }()
-    
-    private let hdImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = UIImage(named: "video quality badges-2")
-        imageView.contentMode = .scaleAspectFill
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        return imageView
-    }()
-    
-    private let visionImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = UIImage(named: "video quality badges")
-        imageView.contentMode = .scaleAspectFill
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        return imageView
-    }()
-    
-    private let adImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = UIImage(named: "video quality badges-3")
-        imageView.contentMode = .scaleAspectFill
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        return imageView
-    }()
-    
-    private let titleStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .horizontal
-        stackView.alignment = .center
-        stackView.spacing = 4
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        return stackView
-    }()
-    
-    private let playButton: UIButton = {
-        var config = UIButton.Configuration.filled()
-        config.title = "play"
-        if let image = UIImage(named: "play") {
-            let size = CGSize(width: 18, height: 18)
-            UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
-            image.draw(in: CGRect(origin: .zero, size: size))
-            config.background.backgroundColor = .white
-            let scaledImage = UIGraphicsGetImageFromCurrentImageContext()
-            UIGraphicsEndImageContext()
-            config.image = scaledImage
-        }
-        config.imagePadding = 8
-        config.titlePadding = 8
-        config.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 10, bottom: 8, trailing: 10)
-        config.baseForegroundColor = .black
-        let playButton = UIButton(configuration: config)
-        playButton.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .bold)
-        playButton.translatesAutoresizingMaskIntoConstraints = false
-        return playButton
-    }()
-    
-    private let downloadButton: UIButton = {
-        var config = UIButton.Configuration.filled()
-        config.background.backgroundColor = UIColor(red: 44/255.0, green: 44/255.0, blue: 44/255.0, alpha: 1.0)
-        config.title = "Download"
-        if let image = UIImage(named: "Vector") {
-            let resizedImage = UIGraphicsImageRenderer(size: CGSize(width: 19, height: 19)).image { _ in
-                image.draw(in: CGRect(origin: .zero, size: CGSize(width: 19, height: 19)))
-            }
-            config.image = resizedImage
-        }
-        config.imagePadding = 8
-        config.titlePadding = 8
-        config.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 10, bottom: 8, trailing: 10)
-        config.baseForegroundColor = .gray
-        let downloadButton = UIButton(configuration: config)
-        downloadButton.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .bold)
-        downloadButton.translatesAutoresizingMaskIntoConstraints = false
-        return downloadButton
-    }()
-    
-    private let descriptionTitleLabel: UILabel = {
-        let label = UILabel()
-        label.text = "S5: E10 Nothing Remains The Same"
-        label.textColor = .white
-        label.font = UIFont.systemFont(ofSize: 12, weight: .bold)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
-    private let descriptionLabel: UILabel = {
-        let label = UILabel()
-        label.text = "Heart flip as Heather Weds Tarek. Jason and Mary grapple with being ghosted. Go solo or take the next step: The agents face life-changing decisions."
-        label.numberOfLines = 0
-        label.lineBreakMode = .byWordWrapping
-        label.textColor = .white
-        label.font = UIFont.systemFont(ofSize: 12, weight: .medium)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
-    private let myListButton: UIButton = {
-        var config = UIButton.Configuration.filled()
-        config.background.backgroundColor = .clear
-        config.imagePlacement = .top
-        if let image = UIImage(named: "p") {
-            let size = CGSize(width: 24, height: 24)
-            UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
-            image.draw(in: CGRect(origin: .zero, size: size))
-            let scaledImage = UIGraphicsGetImageFromCurrentImageContext()
-            UIGraphicsEndImageContext()
-            config.image = scaledImage
-        }
-        var text = AttributedString("My List")
-        text.foregroundColor = .white
-        text.font = UIFont.systemFont(ofSize: 10, weight: .light)
-        config.attributedTitle = text
-        let button = UIButton(configuration: config)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
-    
-    private let rateButton: UIButton = {
-        var config = UIButton.Configuration.filled()
-        config.background.backgroundColor = .clear
-        config.imagePlacement = .top
-        if let image = UIImage(named: "Rate") {
-            let size = CGSize(width: 24, height: 24)
-            UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
-            image.draw(in: CGRect(origin: .zero, size: size))
-            let scaledImage = UIGraphicsGetImageFromCurrentImageContext()
-            UIGraphicsEndImageContext()
-            config.image = scaledImage
-        }
-        var text = AttributedString("Rate")
-        text.foregroundColor = .white
-        text.font = UIFont.systemFont(ofSize: 10, weight: .light)
-        config.attributedTitle = text
-        let button = UIButton(configuration: config)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
-    
-    private let shareButton: UIButton = {
-        var config = UIButton.Configuration.filled()
-        config.background.backgroundColor = .clear
-        config.imagePlacement = .top
-        if let image = UIImage(named: "share") {
-            let size = CGSize(width: 24, height: 24)
-            UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
-            image.draw(in: CGRect(origin: .zero, size: size))
-            let scaledImage = UIGraphicsGetImageFromCurrentImageContext()
-            UIGraphicsEndImageContext()
-            config.image = scaledImage
-        }
-        var text = AttributedString("Share")
-        text.foregroundColor = .white
-        text.font = UIFont.systemFont(ofSize: 10, weight: .light)
-        config.attributedTitle = text
-        let button = UIButton(configuration: config)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
-    
-    private let buttonsStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .horizontal
-        stackView.alignment = .fill
-        stackView.distribution = .fillEqually
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        return stackView
-    }()
+    weak var delegate: HeaderViewDelegate? // delegate 프로퍼티 추가
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setupViews()
+        self.backgroundColor = .darkGray // 기본 배경색 설정
+        setupViews() // UI 설정 메서드 호출
     }
     
     required init?(coder: NSCoder) {
@@ -294,78 +19,415 @@ class DetailHeaderUIView: UIView {
     }
     
     private func setupViews() {
-        addSubview(mainImageView)
-        addSubview(topButtonStackView)
-        addSubview(titleStackView)
-        addSubview(playButton)
-        addSubview(downloadButton)
-        addSubview(descriptionTitleLabel)
-        addSubview(descriptionLabel)
-        addSubview(buttonsStackView)
-        addSubview(customBackButton)
         
-        topButtonStackView.addArrangedSubview(customBackButton)
-        topButtonStackView.addArrangedSubview(tvShareButton)
+        let imageView = UIImageView(image: UIImage(named: "Jangu"))
+        imageView.contentMode = .scaleAspectFit
+        imageView.translatesAutoresizingMaskIntoConstraints = false
         
-        titleStackView.addArrangedSubview(titleLabel)
-        titleStackView.addArrangedSubview(yearLabel)
-        titleStackView.addArrangedSubview(seasonsLabel)
+        let imageView1 = UIImageView(image: UIImage(named: "logos_netflix-icon"))
+        imageView.contentMode = .scaleAspectFit
+        imageView1.translatesAutoresizingMaskIntoConstraints = false
         
-        buttonsStackView.addArrangedSubview(myListButton)
-        buttonsStackView.addArrangedSubview(rateButton)
-        buttonsStackView.addArrangedSubview(shareButton)
+        let imageView2 = UIImageView(image: UIImage(named: "SERIES"))
+        imageView2.contentMode = .scaleAspectFit
+        imageView2.translatesAutoresizingMaskIntoConstraints = false
 
-        // Constraints setup
-        setupConstraints()
+        // 이미지 뷰의 크기 제약 조건 설정 (예: 50x50)
+        NSLayoutConstraint.activate([
+            imageView2.widthAnchor.constraint(equalToConstant: 30),
+            imageView2.heightAnchor.constraint(equalToConstant: 50)
+        ])
+
+        
+        
+        let textLabel = UILabel()
+        textLabel.text = "Selling Sunset"
+        textLabel.font = .systemFont(ofSize:20 , weight: .bold)
+        textLabel.textColor = .white
+        textLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        let textLabel1 = UILabel()
+        textLabel1.text = "2022"
+        textLabel1.font = .systemFont(ofSize: 12, weight: .light)
+        textLabel1.textColor = .white
+        textLabel1.translatesAutoresizingMaskIntoConstraints = false
+        
+        let imageView3 = UIImageView(image: UIImage(named: "tvma"))
+        imageView.contentMode = .scaleAspectFit
+        imageView3.translatesAutoresizingMaskIntoConstraints = false
+        
+        let textLabel2 = UILabel()
+        textLabel2.text = "5 Seasons"
+        textLabel2.font = .systemFont(ofSize: 12, weight: .light)
+        textLabel2.textColor = .white
+        textLabel2.translatesAutoresizingMaskIntoConstraints = false
+        
+        let imageView4 = UIImageView(image: UIImage(named: "Vision"))
+        imageView.contentMode = .scaleAspectFit
+        imageView4.translatesAutoresizingMaskIntoConstraints = false
+        
+        let imageView5 = UIImageView(image: UIImage(named: "HD"))
+        imageView.contentMode = .scaleAspectFit
+        imageView5.translatesAutoresizingMaskIntoConstraints = false
+        
+        let imageView6 = UIImageView(image: UIImage(named: "AD"))
+        imageView.contentMode = .scaleAspectFit
+        imageView6.translatesAutoresizingMaskIntoConstraints = false
+        
+        
+        
+        let button4: UIButton = {
+            var configuration = UIButton.Configuration.filled()
+            configuration.background.backgroundColor = .white
+            configuration.title = "Play"
+            configuration.baseForegroundColor = .black
+            configuration.image = UIImage(named: "play")
+            configuration.imagePadding = 1
+            configuration.titlePadding = 1
+            
+            configuration.imagePlacement = .leading
+            configuration.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10)
+            
+
+            let button4 = UIButton(configuration: configuration)
+            button4.titleLabel?.font = UIFont.systemFont(ofSize: 20.46, weight: .bold)
+            button4.translatesAutoresizingMaskIntoConstraints = false
+            return button4
+            
+            
+        }()
+        
+        
+//        let textButton = UIButton()
+//        textButton.setTitle("Play", for: .normal)
+//        textButton.setTitleColor(.black, for: .normal)
+//        textButton.titleLabel?.font = .systemFont(ofSize: 14, weight: .bold)
+//        textButton.backgroundColor = .white
+//        textButton.layer.cornerRadius = 5
+//        textButton.translatesAutoresizingMaskIntoConstraints = false
+//        
+//        let imageView7 = UIImageView(image: UIImage(named: "play"))
+//        imageView.contentMode = .scaleAspectFit
+//        imageView7.translatesAutoresizingMaskIntoConstraints = false
+        
+        let button5: UIButton = {
+            var configuration = UIButton.Configuration.filled()
+            configuration.background.backgroundColor = .darkGray
+            configuration.title = "Download"
+            configuration.baseForegroundColor = .black
+
+            // 이미지 리사이즈 코드
+            if let image = UIImage(named: "Download Page Icon") {
+                let size = CGSize(width: 20, height: 20)  // 원하는 크기 설정
+                UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
+                image.draw(in: CGRect(origin: .zero, size: size))
+                let scaledImage = UIGraphicsGetImageFromCurrentImageContext()
+                UIGraphicsEndImageContext()
+                configuration.image = scaledImage  // 리사이즈된 이미지 설정
+            }
+
+            configuration.imagePlacement = .leading  // 이미지 왼쪽 배치
+            configuration.imagePadding = 8  // 이미지와 텍스트 간 간격
+            configuration.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10)
+
+            let button5 = UIButton(configuration: configuration)
+            button5.titleLabel?.font = UIFont.systemFont(ofSize: 20.46, weight: .bold)
+            button5.translatesAutoresizingMaskIntoConstraints = false
+            return button5
+
+
+            
+            
+        }()
+        
+//
+//        let textButton1 = UIButton()
+//        textButton1.setTitle("Download", for: .normal)
+//        textButton1.setTitleColor(.gray, for: .normal)
+//        textButton1.titleLabel?.font = .systemFont(ofSize: 14, weight: .bold)
+//        textButton1.backgroundColor = .darkGray
+//        textButton1.layer.cornerRadius = 5
+//        textButton1.translatesAutoresizingMaskIntoConstraints = false /// 종료 안 하면 안 보여줌
+//        
+//        let imageView8 = UIImageView(image: UIImage(named: "Download Page Icon"))
+//        imageView8.contentMode = .scaleAspectFit
+//        imageView8.translatesAutoresizingMaskIntoConstraints = false
+        
+        let textLabel3 = UILabel()
+        textLabel3.text = "SE:E10 Nothing Remains The Same"
+        textLabel3.font = .systemFont(ofSize: 14, weight: .bold)
+        textLabel3.textColor = .white
+        textLabel3.translatesAutoresizingMaskIntoConstraints = false
+        
+        let textLabel4 = UILabel()
+        textLabel4.text = "Hearts flip as Heather weds Tarek. Jason and Mart grapple with being ghosted. Go solo or take the next step: The agents face life-changing decisions"
+        textLabel4.font = .systemFont(ofSize: 14, weight: .medium)
+        textLabel4.textColor = .white
+        textLabel4.numberOfLines = 0 // 줄 수 제한 없이 사용
+        textLabel4.lineBreakMode = .byWordWrapping
+        textLabel4.translatesAutoresizingMaskIntoConstraints = false
+        
+        let button1: UIButton = {
+            var configuration = UIButton.Configuration.filled()
+            configuration.background.backgroundColor = .clear
+            configuration.title = "Rate"
+            configuration.image = UIImage(named: "global icon")
+            configuration.imagePadding = 1
+            configuration.titlePadding = 1
+            
+            configuration.imagePlacement = .top
+            configuration.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
+            
+
+            let button1 = UIButton(configuration: configuration)
+            button1.titleLabel?.font = UIFont.systemFont(ofSize: 20.46, weight: .bold)
+            button1.translatesAutoresizingMaskIntoConstraints = false
+            return button1
+            
+            
+        }()
+        
+        let button2: UIButton = {
+            var configuration = UIButton.Configuration.filled()
+            configuration.background.backgroundColor = .clear
+            configuration.title = "My List"
+            configuration.image = UIImage(named: "plus")
+            configuration.imagePadding = 1
+            configuration.titlePadding = 1
+            
+            configuration.imagePlacement = .top
+            configuration.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
+            
+
+            let button2 = UIButton(configuration: configuration)
+            button2.titleLabel?.font = UIFont.systemFont(ofSize: 20.46, weight: .bold)
+            button2.translatesAutoresizingMaskIntoConstraints = false
+            return button2
+            
+            
+        }()
+        let button3: UIButton = {
+            var configuration = UIButton.Configuration.filled()
+            configuration.background.backgroundColor = .clear
+            configuration.title = "share"
+            configuration.image = UIImage(named: "send")
+            configuration.imagePadding = 1
+            configuration.titlePadding = 1
+            
+            configuration.imagePlacement = .top
+            configuration.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
+            
+
+            let button3 = UIButton(configuration: configuration)
+            button3.titleLabel?.font = UIFont.systemFont(ofSize: 20.46, weight: .bold)
+            button3.translatesAutoresizingMaskIntoConstraints = false
+            return button3
+            
+            
+        }()
+        
+        let textLabel5 = UILabel()
+        textLabel5.text = "Episodes"
+        textLabel5.font = UIFont.systemFont(ofSize: .init(12), weight: .bold)
+        textLabel5.textColor = .white
+        textLabel5.translatesAutoresizingMaskIntoConstraints = false
+        
+        let textLabel6 = UILabel()
+        textLabel6.text = "collection"
+        textLabel6.font = UIFont.systemFont(ofSize: .init(12), weight: .bold)
+        textLabel6.textColor = .white
+        textLabel6.translatesAutoresizingMaskIntoConstraints = false
+        
+        let textLabel7 = UILabel()
+        textLabel7.text = "More Like This"
+        textLabel7.font = UIFont.systemFont(ofSize: .init(12), weight: .bold)
+        textLabel7.textColor = .gray
+        textLabel7.translatesAutoresizingMaskIntoConstraints = false
+        
+        let textLabel8 = UILabel()
+        textLabel8.text = "Treilers & More"
+        textLabel8.font = UIFont.systemFont(ofSize: .init(12), weight: .bold)
+        textLabel8.textColor = .gray
+        textLabel8.translatesAutoresizingMaskIntoConstraints = false
+        
+        
+        let textLabel9 = UILabel()
+        textLabel9.text = "Season 5"
+        textLabel9.font = UIFont.systemFont(ofSize: .init(12), weight: .light)
+        textLabel9.textColor = .white
+        textLabel9.translatesAutoresizingMaskIntoConstraints = false
+        
+        let imageView9 = UIImageView(image: UIImage(named: "chevron.down"))
+        imageView.contentMode = .scaleAspectFit
+        imageView9.tintColor = .white
+        imageView9.translatesAutoresizingMaskIntoConstraints = false
+        
+
+        
+        
+        addSubview(imageView)
+        addSubview(imageView1)
+        addSubview(imageView2)
+        
+        addSubview(textLabel)
+        addSubview(textLabel1)
+        
+        addSubview(imageView3)
+        
+        addSubview(textLabel2)
+        
+        addSubview(imageView4)
+        addSubview(imageView5)
+        addSubview(imageView6)
+        
+        addSubview(button4)
+        addSubview(button5)
+        
+        //addSubview(textButton)
+        //addSubview(imageView7)
+        
+//        addSubview(textButton1)
+//        addSubview(imageView8)
+        
+        addSubview(textLabel3)
+        addSubview(textLabel4)
+        
+        addSubview(button1)
+        addSubview(button2)
+        addSubview(button3)
+        
+        addSubview(textLabel5)
+        addSubview(textLabel6)
+        addSubview(textLabel7)
+        addSubview(textLabel8)
+        addSubview(textLabel9)
+        addSubview(imageView9)
+        
+      
+        
+        
+        NSLayoutConstraint.activate([
+            imageView.topAnchor.constraint(equalTo: self.topAnchor, constant: 0), // BackButton 아래 배치
+            imageView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            imageView.heightAnchor.constraint(equalToConstant: 230),
+            
+            imageView1.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 20),
+            imageView1.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
+            imageView1.heightAnchor.constraint(equalToConstant: 30),
+            imageView1.widthAnchor.constraint(equalToConstant: 30),
+            
+            imageView2.topAnchor.constraint(equalTo: imageView1.topAnchor),
+            imageView2.leadingAnchor.constraint(equalTo: imageView1.trailingAnchor, constant: 10),
+            imageView2.heightAnchor.constraint(equalToConstant: 30),
+            
+            
+            textLabel.topAnchor.constraint(equalTo: imageView1.bottomAnchor, constant: 10),
+            textLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
+            textLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            
+            textLabel1.topAnchor.constraint(equalTo: textLabel.bottomAnchor, constant: 10),
+            textLabel1.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
+            textLabel1.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            
+            imageView3.topAnchor.constraint(equalTo: textLabel.bottomAnchor, constant: 10),
+            imageView3.leadingAnchor.constraint(equalTo: textLabel1.leadingAnchor, constant: 35),
+            imageView3.heightAnchor.constraint(equalToConstant: 20),
+            
+            textLabel2.topAnchor.constraint(equalTo: textLabel.bottomAnchor, constant: 10),
+            textLabel2.leadingAnchor.constraint(equalTo: textLabel1.leadingAnchor, constant: 100),
+            textLabel2.heightAnchor.constraint(equalToConstant: 20),
+            
+            imageView4.topAnchor.constraint(equalTo: textLabel.bottomAnchor, constant: 10),
+            imageView4.leadingAnchor.constraint(equalTo: textLabel2.leadingAnchor, constant: 65),
+            imageView4.heightAnchor.constraint(equalToConstant: 20),
+            
+            imageView5.topAnchor.constraint(equalTo: textLabel.bottomAnchor, constant: 10),
+            imageView5.leadingAnchor.constraint(equalTo: textLabel2.leadingAnchor, constant: 170),
+            imageView5.heightAnchor.constraint(equalToConstant: 20),
+            
+            imageView6.topAnchor.constraint(equalTo: textLabel.bottomAnchor, constant: 10),
+            imageView6.leadingAnchor.constraint(equalTo: textLabel2.leadingAnchor, constant: 213),
+            imageView6.heightAnchor.constraint(equalToConstant: 30),
+            
+            button4.topAnchor.constraint(equalTo: imageView4.bottomAnchor, constant: 20),
+            button4.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            button4.heightAnchor.constraint(equalToConstant: 30),
+            button4.widthAnchor.constraint(equalToConstant: 400),
+            
+            button5.topAnchor.constraint(equalTo: button4.bottomAnchor, constant: 20),
+            button5.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            button5.heightAnchor.constraint(equalToConstant: 30),
+            button5.widthAnchor.constraint(equalToConstant: 400),
+            
+//            textButton.topAnchor.constraint(equalTo: imageView4.bottomAnchor, constant: 20),
+//            textButton.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+//            textButton.heightAnchor.constraint(equalToConstant: 30),
+//            textButton.widthAnchor.constraint(equalToConstant: 400),
+            
+//            imageView7.topAnchor.constraint(equalTo: imageView4.bottomAnchor, constant: 20),
+//            imageView7.leadingAnchor.constraint(equalTo: textButton.leadingAnchor, constant: 150),
+//            imageView7.heightAnchor.constraint(equalToConstant: 20),
+//            
+//            textButton1.topAnchor.constraint(equalTo: textButton.bottomAnchor, constant: 20),
+//            textButton1.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+//            textButton1.heightAnchor.constraint(equalToConstant: 30),
+//            textButton1.widthAnchor.constraint(equalToConstant: 400),
+//            
+//            imageView8.topAnchor.constraint(equalTo: textButton.bottomAnchor, constant: 20),
+//            imageView8.leadingAnchor.constraint(equalTo: textButton1.leadingAnchor, constant: 50),
+//            imageView8.heightAnchor.constraint(equalToConstant: 35),
+            
+            textLabel3.topAnchor.constraint(equalTo: button5.bottomAnchor, constant: 20),
+            textLabel3.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
+            textLabel3.heightAnchor.constraint(equalToConstant: 30),
+            
+            textLabel4.topAnchor.constraint(equalTo: textLabel3.bottomAnchor, constant: 5),
+            textLabel4.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
+            textLabel4.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -20),
+            
+            button1.topAnchor.constraint(equalTo: textLabel4.bottomAnchor, constant: 20),
+            button1.centerXAnchor.constraint(equalTo: self.centerXAnchor, constant: -50),
+            button1.heightAnchor.constraint(equalToConstant: 30),
+            button1.widthAnchor.constraint(equalToConstant: 400),
+            
+            button2.topAnchor.constraint(equalTo: textLabel4.bottomAnchor, constant:  20),
+            button2.centerXAnchor.constraint(equalTo: button1.centerXAnchor, constant: -80),
+            button2.heightAnchor.constraint(equalToConstant: 30),
+            button2.widthAnchor.constraint(equalToConstant: 400),
+            
+            button3.topAnchor.constraint(equalTo: textLabel4.bottomAnchor, constant:  20),
+            button3.centerXAnchor.constraint(equalTo: button1.centerXAnchor, constant: 80),
+            button3.heightAnchor.constraint(equalToConstant: 30),
+            button3.widthAnchor.constraint(equalToConstant: 400),
+            
+            textLabel5.topAnchor.constraint(equalTo: button2.bottomAnchor, constant: 30),
+            textLabel5.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
+            
+            textLabel6.topAnchor.constraint(equalTo: textLabel5.topAnchor), // 같은 높이 유지
+            textLabel6.leadingAnchor.constraint(equalTo: textLabel5.trailingAnchor, constant: 20), // 오른쪽에 20pt 간격
+            textLabel7.topAnchor.constraint(equalTo: textLabel5.topAnchor),
+            textLabel7.leadingAnchor.constraint(equalTo: textLabel6.trailingAnchor, constant: 20),
+            textLabel8.topAnchor.constraint(equalTo: textLabel5.topAnchor),
+            textLabel8.leadingAnchor.constraint(equalTo: textLabel7.trailingAnchor, constant: 20),
+            
+            textLabel9.topAnchor.constraint(equalTo: textLabel5.bottomAnchor, constant: 20),
+            textLabel9.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
+            imageView9.topAnchor.constraint(equalTo: textLabel9.topAnchor, constant: 20),
+            imageView9.leadingAnchor.constraint(equalTo: textLabel9.trailingAnchor, constant: 20),
+
+            
+            
+            
+            
+            
+            
+            
+            
+        
+            
+            
+
+    ])
     }
     
-    private func setupConstraints() {
-        NSLayoutConstraint.activate([
-            // Main ImageView Constraints
-            mainImageView.topAnchor.constraint(equalTo: topAnchor),
-            mainImageView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            mainImageView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            mainImageView.heightAnchor.constraint(equalToConstant: 250),
-
-            // Top Button StackView Constraints
-            topButtonStackView.topAnchor.constraint(equalTo: mainImageView.topAnchor, constant: 20),
-            topButtonStackView.leadingAnchor.constraint(equalTo: mainImageView.leadingAnchor, constant: 20),
-
-            // Title StackView Constraints
-            titleStackView.topAnchor.constraint(equalTo: mainImageView.bottomAnchor, constant: 8),
-            titleStackView.leadingAnchor.constraint(equalTo: mainImageView.leadingAnchor, constant: 20),
-
-            // Play Button Constraints
-            playButton.topAnchor.constraint(equalTo: titleStackView.bottomAnchor, constant: 8),
-            playButton.leadingAnchor.constraint(equalTo: mainImageView.leadingAnchor, constant: 20),
-            
-            // Download Button Constraints
-            downloadButton.topAnchor.constraint(equalTo: playButton.topAnchor),
-            downloadButton.leadingAnchor.constraint(equalTo: playButton.trailingAnchor, constant: 8),
-
-            // Description Title Constraints
-            descriptionTitleLabel.topAnchor.constraint(equalTo: playButton.bottomAnchor, constant: 12),
-            descriptionTitleLabel.leadingAnchor.constraint(equalTo: mainImageView.leadingAnchor, constant: 20),
-            descriptionTitleLabel.trailingAnchor.constraint(equalTo: mainImageView.trailingAnchor, constant: -20),
-
-            // Description Label Constraints
-            descriptionLabel.topAnchor.constraint(equalTo: descriptionTitleLabel.bottomAnchor, constant: 4),
-            descriptionLabel.leadingAnchor.constraint(equalTo: mainImageView.leadingAnchor, constant: 20),
-            descriptionLabel.trailingAnchor.constraint(equalTo: mainImageView.trailingAnchor, constant: -20),
-
-            // Buttons StackView Constraints
-            buttonsStackView.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 12),
-            buttonsStackView.leadingAnchor.constraint(equalTo: mainImageView.leadingAnchor, constant: 20),
-            buttonsStackView.trailingAnchor.constraint(equalTo: mainImageView.trailingAnchor, constant: -20),
-            buttonsStackView.heightAnchor.constraint(equalToConstant: 40),
-            
-            // Back Button Constraints
-            customBackButton.widthAnchor.constraint(equalToConstant: 30),
-            customBackButton.heightAnchor.constraint(equalToConstant: 30)
-        ])
-    }
-
-    @objc private func backButtonTapped() {
-        delegate?.didTapBackButton()
-    }
 }

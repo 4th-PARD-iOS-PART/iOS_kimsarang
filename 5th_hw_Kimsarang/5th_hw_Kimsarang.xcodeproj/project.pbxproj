@@ -160,6 +160,7 @@
 		7E99D96E2CC6765A0047DC37 /* controller */ = {
 			isa = PBXGroup;
 			children = (
+				7E99D9862CC67BFB0047DC37 /* DetailController.swift */,
 				7E99D96F2CC6766E0047DC37 /* FirstViewController.swift */,
 				7E99D9732CC6769B0047DC37 /* SecondViewController.swift */,
 				7E99D9752CC676BD0047DC37 /* ThirdViewController.swift */,
@@ -185,7 +186,6 @@
 			isa = PBXGroup;
 			children = (
 				7E99D9842CC677AE0047DC37 /* MockData.swift */,
-				7E99D9862CC67BFB0047DC37 /* DetailController.swift */,
 				7E99D9912CC7E4470047DC37 /*  ModalViewData.swift */,
 			);
 			path = data;

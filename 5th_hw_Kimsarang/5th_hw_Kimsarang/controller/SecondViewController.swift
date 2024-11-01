@@ -1,5 +1,18 @@
 import UIKit
 
+//// DetailHeaderUIView 정의
+//class DetailHeaderUIView: UIView {
+//    override init(frame: CGRect) {
+//        super.init(frame: frame)
+//        self.backgroundColor = .darkGray // 기본 배경색 설정
+//        // 추가적인 UI 요소나 설정을 여기에 추가할 수 있습니다.
+//    }
+//    
+//    required init?(coder: NSCoder) {
+//        fatalError("init(coder:) has not been implemented")
+//    }
+//}
+
 class SecondViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate {
     
     let tableView = UITableView()
@@ -161,11 +174,10 @@ class DetailHeaderViewController: UIViewController {
         // 배경을 검은색으로 설정
         view.backgroundColor = UIColor.black.withAlphaComponent(1.0)
         
-        // DetailHeaderUIView를 추가 가능
+        // DetailHeaderUIView를 추가
         let detailHeaderView = DetailHeaderUIView()
         detailHeaderView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(detailHeaderView)
-        detailHeaderView.backgroundColor = .black
         
         // 레이아웃 설정
         NSLayoutConstraint.activate([
