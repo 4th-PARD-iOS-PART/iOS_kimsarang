@@ -100,9 +100,15 @@ extension ViewController : UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let vc = DetalilViewController()
         let passData = members[indexPath.row]
+        print(passData.name)
+        print(passData.part)
+        print(passData.age)
+        print(passData.id)
+        
         vc.name = passData.name
         vc.part = passData.part
         vc.age = passData.age
+        vc.id = passData.id 
         
         self.present(vc, animated: true)
     }
